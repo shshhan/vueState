@@ -1,39 +1,35 @@
 <template>
-
-  <div class="black-bg" v-if="modalStatus">
-    <div class="white-bg">
-      <h4>{{studios[studioId].title}}</h4>
-      <p>{{studios[studioId].content}}</p>
-      <p>{{studios[studioId].price}}원</p>
-      <button @click="modalStatus = false">닫기</button>
-    </div>
-  </div>
-
+  <Modal v-bind:studioData="studioData" :modalStatus="modalStatus" :studioId="studioId"/><!-- v-bind:는 : 기호와 같음 -->
   <div class="menu">
 		<a v-for="(name, i) in menuNames" :key="i">{{name}}</a>
   </div>
-
-	<div v-for="(data, i) in studios" :key="i">
-    <img :src="data.image" alt="roomImg" class="roomImg">
+  <Discount/> 
+  <Discount></Discount>
+  <Card :studioData="studioData"/>
+	<!-- <div v-for="(data, i) in studioData" :key="i">
+    <img @click="openModal(data.id)" :src="data.image" alt="roomImg" class="roomImg">
 		<h4 @click="openModal(data.id)">{{data.title}}</h4>
 		<p>{{data.price}}원</p>
-		<!-- <button @click="increaseReportCnt(i)">허위매물신고</button>
-		<span>신고수 : {{reportCnt[i]}} </span> -->
-	</div>
+		<button @click="increaseReportCnt(i)">허위매물신고</button>
+		<span>신고수 : {{reportCnt[i]}} </span>
+	</div> -->
 
 </template>
 
 <script>
 
 import studioData from './assets/studio.js';
+import Discount from './Discount.vue';
+import Modal from './Modal.vue';
+import Card from './Card.vue';
 
 export default {
   name: 'App',
-  data(){
+  data(){     //데이터를 쓰는 곳이 여러군데라면 되도록 부모 컴포넌트에 데이터를 만드는 것이 좋음
     return {  //데이터 보관함 
       modalStatus : false,
 			menuNames : ['Home', 'Shop', 'About'],
-      studios : studioData,
+      studioData,
       studioId : 0,                     
       h4Color : 'color : blue',
 			reportCnt : [0, 0, 0],
@@ -51,6 +47,9 @@ export default {
     }
 	},
   components: {
+    Discount, //discount : discount는 discount라고만 써도 가능. ES6신문법
+    Modal,
+    Card,
   }
 }
 </script>
@@ -62,24 +61,6 @@ body {
 div {
   box-sizing : border-box;
 }
-.black-bg {
-  width : 100%;
-  height : 100%;
-  background : rgba(0,0,0,0.5);
-  position : fixed;
-  padding : 20px;
-}
-.white-bg {
-  width : 100%;
-  background : white;
-  border-radius : 8px;
-  padding : 20px;
-}
-
-.roomImg {
-  width : 100%;
-  margin-top : 40px;
-}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -88,13 +69,11 @@ div {
   color: #2c3e50;
   margin-top: 10px;
 }
-
 .menu{
   background: darkslateblue;
   padding : 15px;
   border-radius: 5px;
 }
-
 .menu a{
   color : white;
   padding : 10px;
