@@ -1,7 +1,7 @@
 <template>
     <div>
-        <img @click="openModal(data.id)" :src="data.image" alt="roomImg" class="roomImg">
-        <h4 @click="openModal(data.id)">{{data.title}}</h4>
+        <img @click="openModalFromCompo(data.id)" :src="data.image" alt="roomImg" class="roomImg">
+        <h4 @click="$emit('modalPop', data.id)">{{data.title}}</h4>
         <p>{{data.price}}원</p>
         <!-- <button @click="increaseReportCnt(i)">허위매물신고</button>
         <span>신고수 : {{reportCnt[i]}} </span> -->
@@ -11,10 +11,15 @@
 
 <script>
 export default {
-name : 'Card',
-props : {
-  studioData : Object,
-}
+  name : 'Card',
+  props : {
+    data : Object,
+  },
+  methods : {
+    openModalFromCompo(id){
+      this.$emit('modalPop', id);
+    },
+  },
 }
 </script>
 

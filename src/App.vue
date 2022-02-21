@@ -1,11 +1,19 @@
 <template>
-  <Modal v-bind:studioData="studioData" :modalStatus="modalStatus" :studioId="studioId"/><!-- v-bind:는 : 기호와 같음 -->
+  <Modal v-bind:studioData="studioData" :modalStatus="modalStatus" :studioId="studioId" @modalClose="modalStatus=false"/>
+  <!-- v-bind:는 : 기호와 같음,
+  아래에 선언되어 있는 변수가 아닌 Array나 Object등 데이터를 바로 쓸 수 도 있음,
+  문자열을 보낼 때는 v-bind없이도 보낼 수 있음 -->
   <div class="menu">
 		<a v-for="(name, i) in menuNames" :key="i">{{name}}</a>
   </div>
   <Discount/> 
   <Discount></Discount>
-  <Card :studioData="studioData"/>
+  <Card @modalPop="openModal($event)" :data="studioData[i]" v-for="(data, i) in studioData" :key="data"/>
+  <!-- <Card :data="studioData[1]"/>
+  <Card :data="studioData[2]"/>
+  <Card :data="studioData[3]"/>
+  <Card :data="studioData[4]"/>
+  <Card :data="studioData[5]"/> -->
 	<!-- <div v-for="(data, i) in studioData" :key="i">
     <img @click="openModal(data.id)" :src="data.image" alt="roomImg" class="roomImg">
 		<h4 @click="openModal(data.id)">{{data.title}}</h4>
