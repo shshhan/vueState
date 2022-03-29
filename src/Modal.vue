@@ -39,35 +39,42 @@
 
 <script>
 export default {
-name : 'Modal',
-data(){
-  return{
-    month : 0,
-    string : '',
-    true_false : false,
-  }
-},
-watch : { //watcher : input value 확인
-  month(postVal) { //data의 month가 변경될 때 마다 value 체크
-                    //파라미터를 하나만 선언하면 바뀐 데이터.
-                    //파라미터를 두개 선언하면 (a,b) a는 바뀐 데이터, b는 바뀌기 전 데이터
-
-    if(isNaN(postVal)){
-      alert('숫자만 입력 가능합니다.');
-      this.month = 1;
+  name : 'Modal',
+  data(){
+    return{
+      month : 0,
+      string : '',
+      true_false : false,
     }
-  
-    if(postVal > 12){
-      alert('12개월 이하로 설정하세요');
-    }
-
   },
-},
-props : { //props는 readOnly
-  studioData : Object,    //props로 받은 변수 : 자료형
-  modalStatus : Boolean,
-  studioId : Number,
-}
+  watch : { //watcher : input value 확인
+    month(postVal, preVal) { //data의 month가 변경될 때 마다 value 체크
+                      //파라미터를 하나만 선언하면 바뀐 데이터.
+                      //파라미터를 두개 선언하면 (a,b) a는 바뀐 데이터, b는 바뀌기 전 데이터
+
+      if(isNaN(postVal)){
+        alert('숫자만 입력 가능합니다.');
+        this.month = 1;
+      }
+    
+      if(postVal > 12){
+        alert('12개월 이하로 설정하세요');
+        this.month=preVal;
+      }
+
+    },
+  },
+  beforeUpdate(){
+    if(this.month != 0 && this.month < 4){
+      alert('4개월 이상부터 가능합니다.');
+      this.month=4;
+    }
+  },
+  props : { //props는 readOnly
+    studioData : Object,    //props로 받은 변수 : 자료형
+    modalStatus : Boolean,
+    studioId : Number,
+  },
 }
 </script>
 

@@ -13,14 +13,13 @@
 		<a v-for="(name, i) in menuNames" :key="i">{{name}}</a>
   </div>
 
-  <Discount/> 
+  <Discount /> 
 
   <button @click="priceFromLowToTop()">낮은 가격순으로 보기</button>
   <button @click="priceFromTopToLow()">높은 가격순으로 보기</button>
   <button @click="sortBack()">원래 정렬로 돌아가기</button>
 
 
-  <!-- <Discount></Discount> -->
   <Card @modalPop="openModal($event)" :studio="studioData[i]" v-for="(data, i) in studioData" :key="i"/>
 
   <!-- <Card :data="studioData[1]"/>
@@ -59,6 +58,7 @@ export default {
       studioId : 0,                     
       h4Color : 'color : blue',
 			reportCnt : [0, 0, 0],
+      discountRate : 40,
 		}
   },
 	methods :{
@@ -88,8 +88,8 @@ export default {
     sortBack(){
       this.studioData = [...this.studioDataOriginal];
     },
-
 	},
+
   components: {
     Discount, //discount : discount는 discount라고만 써도 가능. ES6신문법
     Modal,
@@ -97,6 +97,7 @@ export default {
   }
 }
 </script>
+
 
 <style>
 body {
