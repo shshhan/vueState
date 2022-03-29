@@ -12,7 +12,14 @@
   <div class="menu">
 		<a v-for="(name, i) in menuNames" :key="i">{{name}}</a>
   </div>
+
   <Discount/> 
+
+  <button @click="priceFromLowToTop()">낮은 가격순으로 보기</button>
+  <button @click="priceFromTopToLow()">높은 가격순으로 보기</button>
+  <button @click="sortBack()">원래 정렬로 돌아가기</button>
+
+
   <!-- <Discount></Discount> -->
   <Card @modalPop="openModal($event)" :studio="studioData[i]" v-for="(data, i) in studioData" :key="i"/>
 
@@ -45,6 +52,10 @@ export default {
       modalStatus : false,
 			menuNames : ['Home', 'Shop', 'About'],
       studioData,
+      studioDataOriginal : [...studioData], 
+        //sort하면 원본 데이터의 손상이 발생하기 때문에 사본 데이터를 저장.
+        //... 연산자는 object나 array의 바깥 괄호를 제거해주어 안에 값만 복사한다.
+        //등호 연산자로 가져오면 객체의 주소가 복사되어 값이 공유되는 것을 막기위해 ...으로 바깥 괄호를 없애고 다시 씌워주면 값을 복사해올 수 있다. 
       studioId : 0,                     
       h4Color : 'color : blue',
 			reportCnt : [0, 0, 0],
@@ -59,7 +70,25 @@ export default {
     openModal(id){
       this.modalStatus = true;
       this.studioId = id;
-    }
+    },
+
+    priceFromLowToTop(){
+      this.studioData.sort(function(a, b){
+        return a.price - b.price;
+      });
+      // sort를 사용하면 원본 데이터도 손상된다.
+    },
+
+    priceFromTopToLow(){
+      this.studioData.sort(function(a, b){
+        return -(a.price - b.price);
+      });
+    },
+
+    sortBack(){
+      this.studioData = [...this.studioDataOriginal];
+    },
+
 	},
   components: {
     Discount, //discount : discount는 discount라고만 써도 가능. ES6신문법
