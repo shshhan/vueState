@@ -1,16 +1,21 @@
 <template>
 
-  <Modal v-bind:studioData="studioData" :modalStatus="modalStatus" :studioId="studioId" @modalClose="modalStatus=false"/>
-  <!-- v-bind:는 : 기호와 같음,
-  아래에 선언되어 있는 변수가 아닌 Array나 Object등 데이터를 바로 쓸 수 도 있음,
-  문자열을 보낼 때는 v-bind없이도 보낼 수 있음 -->
+  <!-- <div class="start" :class="{end : modalStatus}"> -->
+    <transition name="fade">  
+      <Modal v-bind:studioData="studioData" :modalStatus="modalStatus" :studioId="studioId" @modalClose="modalStatus=false"/>
+      <!-- v-bind:는 : 기호와 같음,
+      아래에 선언되어 있는 변수가 아닌 Array나 Object등 데이터를 바로 쓸 수 도 있음,
+      문자열을 보낼 때는 v-bind없이도 보낼 수 있음 -->  
+    </transition>
+  <!-- </div> -->
 
   <div class="menu">
 		<a v-for="(name, i) in menuNames" :key="i">{{name}}</a>
   </div>
   <Discount/> 
-  <Discount></Discount>
+  <!-- <Discount></Discount> -->
   <Card @modalPop="openModal($event)" :studio="studioData[i]" v-for="(data, i) in studioData" :key="i"/>
+
   <!-- <Card :data="studioData[1]"/>
   <Card :data="studioData[2]"/>
   <Card :data="studioData[3]"/>
@@ -88,4 +93,31 @@ div {
   color : white;
   padding : 10px;
 }
+.start {
+  opacity: 0;
+  transition : all 1s;
+  /* transition : 모든 속성이 변할 때의 속성*/
+}
+.end {
+  opacity: 1;
+}
+.fade-enter-from { /* 시작 스타일링 */
+	transform: translateY(-1000px);
+}
+.fade-enter-active{ /* 트랜지션 */
+  transition: all 1s;
+}
+.fade-endter-to{ /* 끝 스타일링 */
+	transform: translateY(0px);
+}
+.fade-leave-from { /* 시작 스타일링 */
+  opacity: 1;
+}
+.fade-leave-active{ /* 트랜지션 */
+  transition: all 1s;
+}
+.fade-leave-to{ /* 끝 스타일링 */
+  opacity: 0;
+}
+
 </style>
